@@ -1,22 +1,21 @@
 {
-  "name": "angular-sir-trevor-converter",
-  "version": "0.0.0",
-  "homepage": "https://github.com/DrMabuse23/ng-sir-trevor-converter",
-  "authors": [
-    "DrMabuse <pascalbrewing@googlemail.com>"
-  ],
-  "description": "convert sir trevor json to html",
-  "main": "src/angular-sir-trevor-converter.js",
-  "license": "BSD 3(clause)",
-  "private": true,
+    "name": "angular-sir-trevor-converter",
+    "version": "0.0.2",
+    "homepage": "https://github.com/DrMabuse23/ng-sir-trevor-converter",
+    "authors": [
+        "DrMabuse <pascalbrewing@googlemail.com>"
+    ],
+    "description": "convert sir trevor json to html",
+    "main": "src/angular-sir-trevor-converter.js",
+    "license": "BSD 3(clause)",
     "dependencies": {
         "angular": "1.2.20"
     },
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ]
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
 }
