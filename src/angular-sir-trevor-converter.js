@@ -29,227 +29,340 @@
 
 
  */
-//(function (window, angular, undefined) {
-'use strict';
+(function (window, angular, undefined) {
+    'use strict';
 
 
-angular.module('sir.ui', [])
+    angular.module('sir.ui', [])
 
-/**
- * @ngdoc provider
- * @name $ngSirTrevorConverter
- * @description @todo
- */
-    .directive('sirContent', function (SirTrevorServ,$compile) {
-        return {
-            transclude: true,
-            //template: '<div></div>',
-            restrict: 'E',
-            scope: {
-                convert: "=convert",
-                blocks: "=blocks"
-            },
-            link: function (scope, element, attrs) {
-//                console.debug("defaultOptions", scope);
-                scope.$watch('convert', function () {
-                    var html='';
-//                    console.log(scope,element);
-                    var temp = SirTrevorServ.create(scope);
-//                    angular.forEach(scope.convert,function(convert){
-//                        var temp = SirTrevorServ.create(scope);
-//                        console.log('temp',temp);
-//                        if(angular.isDefined(temp)){
-//                            html += temp;
-//                            console.log('html',html);
-//                            console.log('$element',element);
-//                        }
-//                    });
-                    element.html('temp',temp);
+    /**
+     * @ngdoc provider
+     * @name $ngSirTrevorConverter
+     * @description @todo
+     */
+        .directive('sirContent', function (SirTrevorServ,$compile,$log,$timeout) {
+            return {
+                transclude: true,
+                restrict: 'E',
+                scope: {
+                    convert: "=convert",
+                    blocks: "=blocks"
+                },
+                controller: function ($scope,$element) {
+                    $scope.$watch('convert', function () {
+                        if (typeof $scope.convert !== 'object')
+                            return $log.error('convert must be typeof object');
 
-                });
-            }
-//            ,
-//            controller: function ($scope,$element) {
-//                $scope.$watch('convert', function () {
-//                    console.log($scope,$element);
-////                    if (typeof $scope.convert !== 'object')
-////                        return $log.error('convert mus by Json');
-//                    angular.forEach(scope.convert,function(convert){
-//                        var html = SirTrevorServ.create($scope);
-//                            console.log('html',html);
-//                            console.log('$element',$element);
-//                            $element.append(html);
-//                    })
-//
-////                    $scope.convert;
-////                    $log.debug(test);
-//                });
-//
-////                    console.debug(debug("defaultOptions",$scope.defaultOptions));
-//            }
-        };
-    })
-    .service('SirTrevorServ', function () {
-        var self = this;
-        this.options = [];
-        /**
-         *
-         * @type {{blocks: {text: {tag: string}, heading: {tag: string}, columns: {tag: string}, list: {tag: string, listItem: string}}}}
-         */
-        var blocks = {
-            'text': {
-                tag: 'p'
-            },
-            'heading': {
-                tag: 'h2'
-            },
-            'columns': {
-                tag: 'div',
-                presets: {
-                    'column-1-1': {
-                        tag: 'div',
-                        'class': 'col-lg-6'
-                    },
-                    'columns-3-3-3-3': {
-                        tag: 'div',
-                        'class': 'col-lg-3'
+                        var contentArray = SirTrevorServ.create($scope,$element);
+                        angular.forEach(contentArray,function(html){
+                            $element.append(html);
+                        });
+                    },true);
+                }
+            };
+        })
+        .service('SirTrevorServ', function ($log,$filter) {
+            var self = this;
+            this.options = [];
+            /**
+             *
+             * @type {{text: {tag: string}, heading: {tag: string}, columns: {tag: string, presets: {columns-6-6: {tag: string, options: {class: string}, columnOptions: {class: string[]}}, columns-4-4-4: {tag: string, options: {class: string}, columnOptions: {class: string[]}}, columns-3-3-3-3: {tag: string, options: {class: string}, columnOptions: {class: string[]}}, columns-3-6-3: {tag: string, options: {class: string}, columnOptions: {class: string[]}}, columns-9-3: {tag: string, options: {class: string}, columnOptions: {class: string[]}}, columns-3-9: {tag: string, options: {class: string}, columnOptions: {class: string[]}}, columns-8-4: {tag: string, options: {class: string}, columnOptions: {class: string[]}}, columns-4-8: {tag: string, options: {class: string}, columnOptions: {class: string[]}}}}, list: {tag: string, listItem: string}}}
+             */
+            var blocks = {
+                'text': {
+                    tag: 'p'
+                },
+                'heading': {
+                    tag: 'h2'
+                },
+                'columns': {
+                    tag: 'div',
+                    presets: {
+                        'columns-6-6': {
+                            tag: 'div',
+                            options:{
+                                'class': 'column-6-6'
+                            },
+                            columnOptions:{
+                                'class': ['medium','small']
+                            }
+                        },
+                        'columns-4-4-4': {
+                            tag: 'div',
+                            options:{
+                                class:'columns-4-4-4'
+                            },
+                            columnOptions:{
+                                'class': ['medium','small']
+                            }
+
+                        },
+                        'columns-3-3-3-3': {
+                            tag: 'div',
+                            options:{
+                                class:'columns-3-3-3-3'
+                            },
+                            columnOptions:{
+                                'class': ['medium','small']
+                            }
+                        },
+                        'columns-3-6-3': {
+                            tag: 'div',
+                            options:{
+                                class:'columns-3-6-3'
+                            },
+                            columnOptions:{
+                                'class': ['medium','small']
+                            }
+                        },
+                        'columns-9-3': {
+                            tag: 'div',
+                            options:{
+                                class:'columns-9-3'
+                            },
+                            columnOptions:{
+                                'class': ['medium','small']
+                            }
+                        },
+                        'columns-3-9': {
+                            tag: 'div',
+                            options:{
+                                class:'columns-3-9'
+                            },
+                            columnOptions:{
+                                'class': ['medium','small']
+                            }
+                        },
+                        'columns-8-4': {
+                            tag: 'div',
+                            options:{
+                                class:'columns-8-4'
+                            },
+                            columnOptions:{
+                                'class': ['medium','small']
+                            }
+                        },
+                        'columns-4-8': {
+                            tag: 'div',
+                            options:{
+                                class:'columns-4-8'
+                            },
+                            columnOptions:{
+                                'class': ['medium','small']
+                            }
+                        }
                     }
+                },
+                'list': {
+                    tag: 'ul',
+                    listItem: 'li'
                 }
-            },
-            'list': {
-                tag: 'ul',
-                listItem: 'li'
+            };
+            /**
+             *
+             * @param scope
+             */
+            this.create = function (scope,element) {
+                if (angular.isUndefined(scope.convert.data))
+                    return false;
+
+                self.getOptions(scope);
+                var html = self.toHtml(scope.convert.data);
+                return html;
+            };
+
+            /**
+             *
+             * @param convert
+             */
+            this.toHtml = function (blocks) {
+                var html = [];
+                angular.forEach(blocks, function (block) {
+                    var blockOption = self.getType(block);
+                    switch(block.type) {
+                        case 'columns':
+                            html.push(self.columns(blockOption,block.data));
+//                            $log.log('columns',html);
+                            break;
+                        case 'heading':
+                            var head = self.heading(blockOption.tag,block.data.text,blockOption.options);
+                            html.push(head)
+//                            $log.log('heading',html);
+                            break;
+                        case 'image':
+                            html.push(_createImage(block.data.file.url));
+//                            $log.log('image',html);
+                            break;
+                        case 'text':
+                            var textT = self.heading(blockOption.tag,block.data.text,blockOption.options);
+                            html.push(textT)
+//                            $log.log('text',textT);
+                            break;
+                        default:
+                            return 'nichts';
+                            break;
+                    }
+                });
+//                $log.log(html);
+                return html;
+            };
+
+
+            /**
+             *
+             * @param scope
+             * @returns {*}
+             */
+            this.getOptions = function (scope) {
+                if (angular.isDefined(scope.blocks))
+                    return self.setOptions(scope.blocks);
+
+                return self.setOptions(blocks);
+            };
+
+            /**
+             *
+             * @param blocks
+             * @returns {} Object
+             */
+            this.setOptions = function (blocks) {
+                return self.options = blocks;
+            };
+
+            /**
+             *
+             * @param tag
+             * @returns {string}
+             * @private
+             */
+            this.createTag = function(tag,attrs) {
+                var el = document.createElement(tag);
+                if(angular.isArray(attrs)){
+                    angular.forEach(attrs,function(attr,key){
+                        angular.forEach(attr,function(value,key){
+                            angular.element(el).attr(key,value);
+                        });
+                    });
+                }
+                return el;
+            };
+
+            /**
+             *
+             * @param src
+             * @returns {*}
+             * @private
+             */
+            function _createImage(src) {
+                var el = self.createTag('img');
+                angular.element(el).attr('src','http://localhost/pascal_brewing.de/yii/backend/web/'+src);
+//                console.log('208 img',el);
+                return el;
             }
-        };
-        /**
-         *
-         * @param scope
-         */
-        this.create = function (scope) {
-            if (angular.isUndefined(scope.convert.data))
-                return false;
 
-            self.getOptions(scope);
-            console.log(scope.convert);
-            var html = self.toHtml(scope.convert);
+            /**
+             *
+             * @param data
+             * @returns {*}
+             */
+            this.getType = function (data) {
+                var temp = null;
+                angular.forEach(self.options, function (blockType, index) {
+                    if (index === data.type) {
+                        //$log.log('done blockType', blockType);
+                        //$log.log('done indexd', index);
+                        //$log.log('done data.type', data.type);
+                        //$log.log('done self.options[index]', self.options[index]);
+                        temp = self.options[index];
+                    }
+                });
+                return temp;
+            };
 
-        };
+            /**
+             * append to the container the columns
+             * @param columns
+             * @param options
+             * @param container
+             * @returns {*}
+             */
+            this.getColumns = function (columns,options,container,columnSizes) {
 
-        /**
-         *
-         * @param convert
-         */
-        this.toHtml = function (convert) {
-            angular.forEach(convert.data, function (block) {
-                var blockOption = self.getType(block);
-                switch(block.type) {
-                    case 'columns':
-                        return self.columns(blockOption,block.data);
-                        break;
-                    case 'heading':
-                        var html = angular.element(_createTag(blockOption.tag));
-                        html.text(block.data.text);
-                        console.log('heading',html);
-                        return html;
-                        break;
-                    default:
-                        return false;
-                        break;
+                if(columns.length <= 0){
+                    return '';
                 }
-//                console.log('block',block);
-//                console.log('blockOption',blockOption);
-//                if(block.type === 'columns')
-//                    ;
 
-            });
-        };
+                var itemClasses     = options['class'];
 
+                angular.forEach(columns,function(column,index){
+                    var classes = getColumnClasses(itemClasses,columnSizes[index+1])+' '+columnSizes[0];
+                    var el = self.createTag('div',options);
+                    angular.element(el).attr('class',classes);
 
-        /**
-         *
-         * @param scope
-         * @returns {*}
-         */
-        this.getOptions = function (scope) {
-            if (angular.isDefined(scope.blocks))
-                return self.setOptions(scope.blocks);
+                    if(angular.isDefined(column.blocks) && column.blocks.length > 0){
+                        var columnHtml = self.toHtml(column.blocks);
+                        angular.element(el).append(columnHtml);
+                    }
 
-            return self.setOptions(blocks);
-        };
+                    angular.element(container).append(el);
+                });
+                return container;
+            };
 
-        /**
-         *
-         * @param blocks
-         * @returns {} Object
-         */
-        this.setOptions = function (blocks) {
-            return self.options = blocks;
-        };
+            function getColumnClasses(sizes,size){
+                var classes = '';
+                angular.forEach(sizes,function(mySize){
+                    classes += mySize+'-'+size+' ';
+                });
 
-        /**
-         *
-         * @param tag
-         * @returns {string}
-         * @private
-         */
-        function _createTag(tag) {
-            return "<" + tag + ">" + "</" + tag + ">"
-        }
-        /**
-         *
-         * @param tag
-         * @returns {string}
-         * @private
-         */
-        function _createImage(src) {
-            return "<img ng-src='"+$filter('checkPath')(src)+"' />";
-        }
+                return classes;
+            }
+            /**
+             *
+             * @param option
+             * @param data
+             */
+            this.columns = function (option,data) {
 
-        /**
-         *
-         * @param data
-         * @returns {*}
-         */
-        this.getType = function (data) {
-            var temp = null;
-            angular.forEach(self.options, function (blockType, index) {
-                if (index === data.type) {
-//                    console.log('done blockType', blockType);
-//                    console.log('done indexd', index);
-//                    console.log('done data.type', data.type);
-//                    console.log('done self.options[index]', self.options[index]);
-                    temp = self.options[index];
+                var container = self.createTag(option.tag,false);
+                angular.element(container).addClass(data.preset+' row');
+                var preset = data.preset;
+                var columnClasses = preset.split('-');
+                $log.log('columnClasses',columnClasses);
+
+                if(angular.isUndefined(option['presets'][data.preset])){
+                    $log.debug(option);
+                    return $log.error(data.preset+' not defined');
+
                 }
-            });
-            return temp;
-        };
 
+                var html = self.getColumns(data.columns,option['presets'][data.preset].columnOptions,container,columnClasses);
+                return html;
+            };
 
-        this.getColumns = function (columns,element) {
-            var temp = '';
-            angular.forEach(columns,function(column,index){
-//                    console.log(column);
-            });
-//            console.log('columns',columns);
-        };
+            /**
+             *
+             * @param tag
+             * @param text
+             * @param options
+             * @returns <h2 options>Lorem Ipsum</h2>
+             */
+            this.heading = function(tag,text,options){
+                var head = self.createTag(tag);
+                if(angular.isDefined(options)){
+                    head = self.createTag(tag,options);
+                }
+                angular.element(head).text(text);
+                return head;
+            };
 
-        /**
-         *
-         * @param option
-         * @param data
-         */
-        this.columns = function (option,data) {
-            var container = angular.element(_createTag(option.tag));
-            container.addClass(data.preset);
+            /**
+             * @todo
+             */
+            this.list = function () {
 
-            var columns = self.getColumns(data.columns,container);
+            }
 
-//            console.log('option',option);
-//            console.log('container',container);
-//            console.log('columns',columns);
-//            console.log('data',data);
-        };
+        });
 
-    });
-
-//})(window, window.angular);
+})(window, window.angular);
