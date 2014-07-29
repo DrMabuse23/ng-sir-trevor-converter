@@ -7,6 +7,14 @@ convert sir trevor json to html
 ````
     bower install --save angular-sir-trevor-converter
 ````
+
+### Usage
+content must be an type of Object
+
+````
+    <sir-content  convert="content"></sir-content>
+````
+
 ### Configuration at the moment
     ````
     var blocks = {
@@ -100,3 +108,7 @@ convert sir trevor json to html
         }
     };
 ````
+
+### Todos
+
+add list,video,blockquote,image-caption
