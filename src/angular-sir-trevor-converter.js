@@ -40,7 +40,7 @@
      * @name $ngSirTrevorConverter
      * @description @todo
      */
-        .directive('sirContent', function (SirTrevorServ,$compile,$log,$timeout) {
+        .directive('sirContent', function (SirTrevorServ, $compile, $log, $timeout) {
             return {
                 transclude: true,
                 restrict: 'E',
@@ -48,25 +48,50 @@
                     convert: "=convert",
                     blocks: "=blocks"
                 },
-                controller: function ($scope,$element) {
+                controller: function ($scope, $element) {
                     $scope.$watch('convert', function () {
                         if (typeof $scope.convert !== 'object')
                             return $log.error('convert must be typeof object');
 
-                        var contentArray = SirTrevorServ.create($scope,$element);
-                        angular.forEach(contentArray,function(html){
+                        var contentArray = SirTrevorServ.create($scope, $element);
+                        angular.forEach(contentArray, function (html) {
                             $element.append(html);
                         });
-                    },true);
+                    }, true);
                 }
             };
         })
-        .service('SirTrevorServ', function ($log,$filter) {
+        /**
+         * @ng service
+         * @name SirTrevorServ
+         */
+        .service('SirTrevorServ', function ($log) {
+            /**
+             * using in closure
+             */
             var self = this;
+            /**
+             *
+             * @type {Array}
+             */
             this.options = [];
             /**
              *
-             * @type {{text: {tag: string}, heading: {tag: string}, columns: {tag: string, presets: {columns-6-6: {tag: string, options: {class: string}, columnOptions: {class: string[]}}, columns-4-4-4: {tag: string, options: {class: string}, columnOptions: {class: string[]}}, columns-3-3-3-3: {tag: string, options: {class: string}, columnOptions: {class: string[]}}, columns-3-6-3: {tag: string, options: {class: string}, columnOptions: {class: string[]}}, columns-9-3: {tag: string, options: {class: string}, columnOptions: {class: string[]}}, columns-3-9: {tag: string, options: {class: string}, columnOptions: {class: string[]}}, columns-8-4: {tag: string, options: {class: string}, columnOptions: {class: string[]}}, columns-4-8: {tag: string, options: {class: string}, columnOptions: {class: string[]}}}}, list: {tag: string, listItem: string}}}
+             * @type {{
+             * text: {tag: string},
+             * heading: {tag: string},
+             * columns: {tag: string,
+             *  presets: {
+             *      columns-6-6: {tag: string, options: {class: string}, columnOptions: {class: string[]}},
+             *      columns-4-4-4: {tag: string, options: {class: string}, columnOptions: {class: string[]}},
+             *      columns-3-3-3-3: {tag: string, options: {class: string}, columnOptions: {class: string[]}},
+             *      columns-3-6-3: {tag: string, options: {class: string}, columnOptions: {class: string[]}},
+             *      columns-9-3: {tag: string, options: {class: string}, columnOptions: {class: string[]}},
+             *      columns-3-9: {tag: string, options: {class: string}, columnOptions: {class: string[]}},
+             *      columns-8-4: {tag: string, options: {class: string}, columnOptions: {class: string[]}},
+             *      columns-4-8: {tag: string, options: {class: string}, columnOptions: {class: string[]}}}},
+             *      list: {tag: string, listItem: string}
+             * }}
              */
             var blocks = {
                 'text': {
@@ -80,75 +105,75 @@
                     presets: {
                         'columns-6-6': {
                             tag: 'div',
-                            options:{
+                            options: {
                                 'class': 'column-6-6'
                             },
-                            columnOptions:{
-                                'class': ['medium','small']
+                            columnOptions: {
+                                'class': ['medium', 'small']
                             }
                         },
                         'columns-4-4-4': {
                             tag: 'div',
-                            options:{
-                                class:'columns-4-4-4'
+                            options: {
+                                class: 'columns-4-4-4'
                             },
-                            columnOptions:{
-                                'class': ['medium','small']
+                            columnOptions: {
+                                'class': ['medium', 'small']
                             }
 
                         },
                         'columns-3-3-3-3': {
                             tag: 'div',
-                            options:{
-                                class:'columns-3-3-3-3'
+                            options: {
+                                class: 'columns-3-3-3-3'
                             },
-                            columnOptions:{
-                                'class': ['medium','small']
+                            columnOptions: {
+                                'class': ['medium', 'small']
                             }
                         },
                         'columns-3-6-3': {
                             tag: 'div',
-                            options:{
-                                class:'columns-3-6-3'
+                            options: {
+                                class: 'columns-3-6-3'
                             },
-                            columnOptions:{
-                                'class': ['medium','small']
+                            columnOptions: {
+                                'class': ['medium', 'small']
                             }
                         },
                         'columns-9-3': {
                             tag: 'div',
-                            options:{
-                                class:'columns-9-3'
+                            options: {
+                                class: 'columns-9-3'
                             },
-                            columnOptions:{
-                                'class': ['medium','small']
+                            columnOptions: {
+                                'class': ['medium', 'small']
                             }
                         },
                         'columns-3-9': {
                             tag: 'div',
-                            options:{
-                                class:'columns-3-9'
+                            options: {
+                                class: 'columns-3-9'
                             },
-                            columnOptions:{
-                                'class': ['medium','small']
+                            columnOptions: {
+                                'class': ['medium', 'small']
                             }
                         },
                         'columns-8-4': {
                             tag: 'div',
-                            options:{
-                                class:'columns-8-4'
+                            options: {
+                                class: 'columns-8-4'
                             },
-                            columnOptions:{
-                                'class': ['medium','small']
+                            columnOptions: {
+                                'class': ['medium', 'small']
                             }
                         },
                         'columns-4-8': {
                             tag: 'div',
-                            options:{
-                                class:'columns-4-8'
+                            options: {
+                                class: 'columns-4-8'
                             },
-                            columnOptions:{
-                                'class': ['medium','small']
+                            columnOptions: {
+                                'class': ['medium', 'small']
                             }
                         }
                     }
@@ -162,7 +187,7 @@
              *
              * @param scope
              */
-            this.create = function (scope,element) {
+            this.create = function (scope) {
                 if (angular.isUndefined(scope.convert.data))
                     return false;
 
@@ -179,13 +204,13 @@
                 var html = [];
                 angular.forEach(blocks, function (block) {
                     var blockOption = self.getType(block);
-                    switch(block.type) {
+                    switch (block.type) {
                         case 'columns':
-                            html.push(self.columns(blockOption,block.data));
+                            html.push(self.columns(blockOption, block.data));
 //                            $log.log('columns',html);
                             break;
                         case 'heading':
-                            var head = self.heading(blockOption.tag,block.data.text,blockOption.options);
+                            var head = self.heading(blockOption.tag, block.data.text, blockOption.options);
                             html.push(head)
 //                            $log.log('heading',html);
                             break;
@@ -194,7 +219,7 @@
 //                            $log.log('image',html);
                             break;
                         case 'text':
-                            var textT = self.heading(blockOption.tag,block.data.text,blockOption.options);
+                            var textT = self.heading(blockOption.tag, block.data.text, blockOption.options);
                             html.push(textT)
 //                            $log.log('text',textT);
                             break;
@@ -235,12 +260,12 @@
              * @returns {string}
              * @private
              */
-            this.createTag = function(tag,attrs) {
+            this.createTag = function (tag, attrs) {
                 var el = document.createElement(tag);
-                if(angular.isArray(attrs)){
-                    angular.forEach(attrs,function(attr,key){
-                        angular.forEach(attr,function(value,key){
-                            angular.element(el).attr(key,value);
+                if (angular.isArray(attrs)) {
+                    angular.forEach(attrs, function (attr, key) {
+                        angular.forEach(attr, function (value, key) {
+                            angular.element(el).attr(key, value);
                         });
                     });
                 }
@@ -255,7 +280,7 @@
              */
             function _createImage(src) {
                 var el = self.createTag('img');
-                angular.element(el).attr('src','http://localhost/pascal_brewing.de/yii/backend/web/'+src);
+                angular.element(el).attr('src', 'http://localhost/pascal_brewing.de/yii/backend/web/' + src);
 //                console.log('208 img',el);
                 return el;
             }
@@ -286,20 +311,20 @@
              * @param container
              * @returns {*}
              */
-            this.getColumns = function (columns,options,container,columnSizes) {
+            this.getColumns = function (columns, options, container, columnSizes) {
 
-                if(columns.length <= 0){
+                if (columns.length <= 0) {
                     return '';
                 }
 
-                var itemClasses     = options['class'];
+                var itemClasses = options['class'];
 
-                angular.forEach(columns,function(column,index){
-                    var classes = getColumnClasses(itemClasses,columnSizes[index+1])+' '+columnSizes[0];
-                    var el = self.createTag('div',options);
-                    angular.element(el).attr('class',classes);
+                angular.forEach(columns, function (column, index) {
+                    var classes = getColumnClasses(itemClasses, columnSizes[index + 1]) + ' ' + columnSizes[0];
+                    var el = self.createTag('div', options);
+                    angular.element(el).attr('class', classes);
 
-                    if(angular.isDefined(column.blocks) && column.blocks.length > 0){
+                    if (angular.isDefined(column.blocks) && column.blocks.length > 0) {
                         var columnHtml = self.toHtml(column.blocks);
                         angular.element(el).append(columnHtml);
                     }
@@ -310,39 +335,40 @@
             };
 
             /**
-             * 
+             *
              * @param sizes
              * @param size
              * @returns {string}
              */
-            function getColumnClasses(sizes,size){
+            function getColumnClasses(sizes, size) {
                 var classes = '';
-                angular.forEach(sizes,function(mySize){
-                    classes += mySize+'-'+size+' ';
+                angular.forEach(sizes, function (mySize) {
+                    classes += mySize + '-' + size + ' ';
                 });
 
                 return classes;
             }
+
             /**
              *
              * @param option
              * @param data
              */
-            this.columns = function (option,data) {
+            this.columns = function (option, data) {
 
-                var container = self.createTag(option.tag,false);
-                angular.element(container).addClass(data.preset+' row');
+                var container = self.createTag(option.tag, false);
+                angular.element(container).addClass(data.preset + ' row');
                 var preset = data.preset;
                 var columnClasses = preset.split('-');
-                $log.log('columnClasses',columnClasses);
+                $log.log('columnClasses', columnClasses);
 
-                if(angular.isUndefined(option['presets'][data.preset])){
+                if (angular.isUndefined(option['presets'][data.preset])) {
                     $log.debug(option);
-                    return $log.error(data.preset+' not defined');
+                    return $log.error(data.preset + ' not defined');
 
                 }
 
-                var html = self.getColumns(data.columns,option['presets'][data.preset].columnOptions,container,columnClasses);
+                var html = self.getColumns(data.columns, option['presets'][data.preset].columnOptions, container, columnClasses);
                 return html;
             };
 
@@ -353,10 +379,10 @@
              * @param options
              * @returns <h2 options>Lorem Ipsum</h2>
              */
-            this.heading = function(tag,text,options){
+            this.heading = function (tag, text, options) {
                 var head = self.createTag(tag);
-                if(angular.isDefined(options)){
-                    head = self.createTag(tag,options);
+                if (angular.isDefined(options)) {
+                    head = self.createTag(tag, options);
                 }
                 angular.element(head).text(text);
                 return head;
