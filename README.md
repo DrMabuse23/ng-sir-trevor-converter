@@ -1,10 +1,14 @@
 ng-sir-trevor-converter
 =======================
 
+Version 0.0.2
+--------------
+
 convert sir trevor json to html
 
 ### Installation
-<iframe src="//benschwarz.github.io/bower-badges/embed.html?pkgname=angular-sir-trevor-converter" width="160" height="32" allowtransparency="true" frameborder="0" scrolling="0">
+
+[![Bower version](https://badge.fury.io/bo/angular-sir-trevor-converter.svg)](http://badge.fury.io/bo/angular-sir-trevor-converter)
 
 ````
     bower install --save angular-sir-trevor-converter
