@@ -309,6 +309,12 @@
                 return container;
             };
 
+            /**
+             * 
+             * @param sizes
+             * @param size
+             * @returns {string}
+             */
             function getColumnClasses(sizes,size){
                 var classes = '';
                 angular.forEach(sizes,function(mySize){
