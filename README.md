@@ -3,7 +3,10 @@ ng-sir-trevor-converter
 
 convert sir trevor json to html
 
-
+### Installation
+````
+    bower install --save angular-sir-trevor-converter
+````
 ### Configuration at the moment
     ````
     var blocks = {
