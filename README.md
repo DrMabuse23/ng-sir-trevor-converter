@@ -1,7 +1,7 @@
 ng-sir-trevor-converter
 =======================
 
-Version 0.0.2
+Version 0.0.3
 --------------
 
 convert sir trevor json to html
@@ -117,4 +117,5 @@ content must be an type of Object
 
 ### Todos
 
-add list,video,blockquote,image-caption
+add video,blockquote,image-caption
+
