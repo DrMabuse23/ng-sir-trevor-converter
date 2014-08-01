@@ -49,7 +49,10 @@
                     blocks: "=blocks"
                 },
                 controller: function ($scope, $element) {
+
                     $scope.$watch('convert', function () {
+                        console.log($scope);
+
                         if (typeof $scope.convert !== 'object')
                             return $log.error('convert must be typeof object');
 
@@ -61,37 +64,12 @@
                 }
             };
         })
-        /**
-         * @ng service
-         * @name SirTrevorServ
-         */
-        .service('SirTrevorServ', function ($log) {
-            /**
-             * using in closure
-             */
+        .service('SirTrevorServ', function ($log, $filter) {
             var self = this;
-            /**
-             *
-             * @type {Array}
-             */
             this.options = [];
             /**
              *
-             * @type {{
-             * text: {tag: string},
-             * heading: {tag: string},
-             * columns: {tag: string,
-             *  presets: {
-             *      columns-6-6: {tag: string, options: {class: string}, columnOptions: {class: string[]}},
-             *      columns-4-4-4: {tag: string, options: {class: string}, columnOptions: {class: string[]}},
-             *      columns-3-3-3-3: {tag: string, options: {class: string}, columnOptions: {class: string[]}},
-             *      columns-3-6-3: {tag: string, options: {class: string}, columnOptions: {class: string[]}},
-             *      columns-9-3: {tag: string, options: {class: string}, columnOptions: {class: string[]}},
-             *      columns-3-9: {tag: string, options: {class: string}, columnOptions: {class: string[]}},
-             *      columns-8-4: {tag: string, options: {class: string}, columnOptions: {class: string[]}},
-             *      columns-4-8: {tag: string, options: {class: string}, columnOptions: {class: string[]}}}},
-             *      list: {tag: string, listItem: string}
-             * }}
+             * @type {{blocks: {text: {tag: string}, heading: {tag: string}, columns: {tag: string}, list: {tag: string, listItem: string}}}}
              */
             var blocks = {
                 'text': {
@@ -115,7 +93,7 @@
                         'columns-4-4-4': {
                             tag: 'div',
                             options: {
-                                class: 'columns-4-4-4'
+                                'class': 'columns-4-4-4'
                             },
                             columnOptions: {
                                 'class': ['medium', 'small']
@@ -125,7 +103,7 @@
                         'columns-3-3-3-3': {
                             tag: 'div',
                             options: {
-                                class: 'columns-3-3-3-3'
+                                'class': 'columns-3-3-3-3'
                             },
                             columnOptions: {
                                 'class': ['medium', 'small']
@@ -134,7 +112,7 @@
                         'columns-3-6-3': {
                             tag: 'div',
                             options: {
-                                class: 'columns-3-6-3'
+                                'class': 'columns-3-6-3'
                             },
                             columnOptions: {
                                 'class': ['medium', 'small']
@@ -143,7 +121,7 @@
                         'columns-9-3': {
                             tag: 'div',
                             options: {
-                                class: 'columns-9-3'
+                                'class': 'columns-9-3'
                             },
                             columnOptions: {
                                 'class': ['medium', 'small']
@@ -152,7 +130,7 @@
                         'columns-3-9': {
                             tag: 'div',
                             options: {
-                                class: 'columns-3-9'
+                                'class': 'columns-3-9'
                             },
                             columnOptions: {
                                 'class': ['medium', 'small']
@@ -161,7 +139,7 @@
                         'columns-8-4': {
                             tag: 'div',
                             options: {
-                                class: 'columns-8-4'
+                                'class': 'columns-8-4'
                             },
                             columnOptions: {
                                 'class': ['medium', 'small']
@@ -170,7 +148,7 @@
                         'columns-4-8': {
                             tag: 'div',
                             options: {
-                                class: 'columns-4-8'
+                                'class': 'columns-4-8'
                             },
                             columnOptions: {
                                 'class': ['medium', 'small']
@@ -180,6 +158,9 @@
                 },
                 'list': {
                     tag: 'ul',
+                    options: {
+                        'class': 'inline-list'
+                    },
                     listItem: 'li'
                 }
             };
@@ -187,7 +168,7 @@
              *
              * @param scope
              */
-            this.create = function (scope) {
+            this.create = function (scope, element) {
                 if (angular.isUndefined(scope.convert.data))
                     return false;
 
@@ -223,6 +204,13 @@
                             html.push(textT)
 //                            $log.log('text',textT);
                             break;
+                        case 'list':
+                            $log.log(blockOption);
+                            var list = self.list(blockOption.tag, blockOption.listItem, block.data.text, blockOption.options);
+
+                            html.push(list);
+//                            $log.log('list');
+                            break;
                         default:
                             return 'nichts';
                             break;
@@ -239,7 +227,8 @@
              * @returns {*}
              */
             this.getOptions = function (scope) {
-                if (angular.isDefined(scope.blocks))
+                console.log('scope.blocks', scope.blocks);
+                if (angular.isDefined(scope.blocks) && angular.isObject(scope, blocks))
                     return self.setOptions(scope.blocks);
 
                 return self.setOptions(blocks);
@@ -334,12 +323,6 @@
                 return container;
             };
 
-            /**
-             *
-             * @param sizes
-             * @param size
-             * @returns {string}
-             */
             function getColumnClasses(sizes, size) {
                 var classes = '';
                 angular.forEach(sizes, function (mySize) {
@@ -360,10 +343,10 @@
                 angular.element(container).addClass(data.preset + ' row');
                 var preset = data.preset;
                 var columnClasses = preset.split('-');
-                $log.log('columnClasses', columnClasses);
+//                $log.log('columnClasses',columnClasses);
 
                 if (angular.isUndefined(option['presets'][data.preset])) {
-                    $log.debug(option);
+//                    $log.debug(option);
                     return $log.error(data.preset + ' not defined');
 
                 }
@@ -389,11 +372,20 @@
             };
 
             /**
-             * @todo
+             * @return <ul><li>duo</li></ul>
              */
-            this.list = function () {
+            this.list = function (tag, listTag, list, options) {
 
+                var ul = self.createTag(tag, [options]);
+                var lists = list.replace(/^ - (.+)$/mg, "<" + listTag + ">$1</" + listTag + ">")
+                    .replace(/\n/mg, "");
+                angular.element(ul).html(lists);
+
+                $log.log('item', lists);
+                $log.log('ul', ul);
+                return ul;
             }
+
 
         });
 
