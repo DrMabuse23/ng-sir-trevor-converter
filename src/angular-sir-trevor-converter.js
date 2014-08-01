@@ -381,8 +381,8 @@
                     .replace(/\n/mg, "");
                 angular.element(ul).html(lists);
 
-                $log.log('item', lists);
-                $log.log('ul', ul);
+//                $log.log('item', lists);
+//                $log.log('ul', ul);
                 return ul;
             }
 
