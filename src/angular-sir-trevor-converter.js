@@ -205,7 +205,7 @@
 //                            $log.log('text',textT);
                             break;
                         case 'list':
-                            $log.log(blockOption);
+//                            $log.log(blockOption);
                             var list = self.list(blockOption.tag, blockOption.listItem, block.data.text, blockOption.options);
 
                             html.push(list);
