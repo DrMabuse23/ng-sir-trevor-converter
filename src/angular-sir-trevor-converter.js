@@ -32,154 +32,119 @@
 (function (window, angular, undefined) {
     'use strict';
 
-
     angular.module('sir.ui', [])
         .value('defaultOptions', {
-            'text': {
-                tag: 'p'
+            'text'    : {
+                tag : 'p'
             },
-            'heading': {
-                tag: 'h2'
+            'heading' : {
+                tag     : 'h2',
+                options : {
+                    'class' : ['page-header']
+                }
             },
-            'columns': {
-                tag: 'div',
-                presets: {
-                    'columns-6-6': {
-                        tag: 'div',
-                        options: {
-                            'class': 'column-6-6'
+            'columns' : {
+                tag     : 'div',
+                presets : {
+                    'columns-6-6'     : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'column-6-6'
                         },
-                        columnOptions: {
-                            'class': ['medium', 'small']
+                        columnOptions : {
+                            'class' : ['medium', 'small']
                         }
                     },
-                    'columns-4-4-4': {
-                        tag: 'div',
-                        options: {
-                            'class': 'columns-4-4-4'
+                    'columns-4-4-4'   : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'columns-4-4-4'
                         },
-                        columnOptions: {
-                            'class': ['medium', 'small']
+                        columnOptions : {
+                            'class' : ['medium', 'small']
                         }
 
                     },
-                    'columns-3-3-3-3': {
-                        tag: 'div',
-                        options: {
-                            'class': 'columns-3-3-3-3'
+                    'columns-3-3-3-3' : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'columns-3-3-3-3'
                         },
-                        columnOptions: {
-                            'class': ['medium', 'small']
+                        columnOptions : {
+                            'class' : ['medium', 'small']
                         }
                     },
-                    'columns-3-6-3': {
-                        tag: 'div',
-                        options: {
-                            'class': 'columns-3-6-3'
+                    'columns-3-6-3'   : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'columns-3-6-3'
                         },
-                        columnOptions: {
-                            'class': ['medium', 'small']
+                        columnOptions : {
+                            'class' : ['medium', 'small']
                         }
                     },
-                    'columns-9-3': {
-                        tag: 'div',
-                        options: {
-                            'class': 'columns-9-3'
+                    'columns-9-3'     : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'columns-9-3'
                         },
-                        columnOptions: {
-                            'class': ['medium', 'small']
+                        columnOptions : {
+                            'class' : ['medium', 'small']
                         }
                     },
-                    'columns-3-9': {
-                        tag: 'div',
-                        options: {
-                            'class': 'columns-3-9'
+                    'columns-3-9'     : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'columns-3-9'
                         },
-                        columnOptions: {
-                            'class': ['medium', 'small']
+                        columnOptions : {
+                            'class' : ['medium', 'small']
                         }
                     },
-                    'columns-8-4': {
-                        tag: 'div',
-                        options: {
-                            'class': 'columns-8-4'
+                    'columns-8-4'     : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'columns-8-4'
                         },
-                        columnOptions: {
-                            'class': ['medium', 'small']
+                        columnOptions : {
+                            'class' : ['medium', 'small']
                         }
                     },
-                    'columns-4-8': {
-                        tag: 'div',
-                        options: {
-                            'class': 'columns-4-8'
+                    'columns-4-8'     : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'columns-4-8'
                         },
-                        columnOptions: {
-                            'class': ['medium', 'small']
+                        columnOptions : {
+                            'class' : ['medium', 'small']
                         }
                     }
                 }
             },
-            'image': {
-                baseUrl: null,
-                options: {
-                    'class': 'image-responsive'
+            'image'   : {
+                baseUrl : null,
+                options : {
+                    'class' : 'img-responsive'
                 }
             },
-            'list': {
-                tag: 'ul',
-                options: {
-                    'class': 'inline-list'
+            'list'    : {
+                tag      : 'ul',
+                options  : {
+                    'class' : 'inline-list'
                 },
-                listItem: 'li'
+                listItem : 'li'
             }
-        })
-    /**
-     * @ngdoc provider
-     * @name $ngSirTrevorConverter
-     * @description @todo
-     */
-        .directive('sirContent', ['SirTrevorServ', '$compile', '$log', '$timeout', '_',
-            /**
-             *
-             * @param SirTrevorServ
-             * @param $compile
-             * @param $log
-             * @param $timeout
-             * @param _
-             * @returns {{transclude: boolean, restrict: string, scope: {convert: string, blocks: string}, controller: Function}}
-             */
-                function (SirTrevorServ, $compile, $log, $timeout, _) {
-                return {
-                    transclude: true,
-                    restrict: 'E',
-                    scope: {
-                        convert: "=convert",
-                        blocks: "=blocks"
-                    },
-                    controller: function ($scope, $element, _) {
-
-                        $scope.$watch('convert', function () {
-                            console.log($scope);
-
-                            if (typeof $scope.convert !== 'object')
-                                return $log.error('convert must be typeof object');
-
-                            var contentArray = SirTrevorServ.create($scope, $element);
-                            angular.forEach(contentArray, function (html) {
-                                $element.append(html);
-                            });
-                        }, true);
-                    }
-                };
-            }])
+        });
     /**
      * @name SirTrevorServ
      * @ng service
      */
-        .service('SirTrevorServ', ['$log', '$filter', 'defaultOptions', '_', 'Html',
+    angular.module('sir.ui')
+        .service('SirTrevorServ', [
+            '$log', '$filter', 'defaultOptions', '_', 'Html',
             /**
              *
-             * @param $log
+             * @param //$log
              * @param $filter
              * @param defaultOptions
              * @param _
@@ -196,7 +161,7 @@
                  * @param scope
                  */
                 this.create = function (scope) {
-                    if (angular.isUndefined(scope.convert.data))
+                    if ( angular.isUndefined(scope.convert.data) )
                         return false;
 
                     self.getOptions(scope);
@@ -212,45 +177,53 @@
                     var html = [];
                     angular.forEach(blocks, function (block) {
                         var blockOption = self.getBlockOption(block);
-                        switch (block.type) {
+
+                        switch ( block.type ) {
                             case 'columns':
                                 html.push(self.columns(blockOption, block.data));
-//                            $log.log('columns',html);
+//                            //$log.log('columns',html);
                                 break;
                             case 'heading':
-                                var head = self.heading(blockOption.tag, block.data.text, blockOption.options);
+                                //$log.log('block', block);
+                                //$log.log('blockOption', blockOption, blockOption.options);
+                                var head = self.heading(blockOption.tag, block.data.text, [blockOption.options]);
                                 html.push(head);
-//                            $log.log('heading',html);
+//                            //$log.log('heading',html);
                                 break;
                             case 'image':
-                                if (blockOption.baseUrl === null) {
-                                    html.push(_createImage(block.data.file.url));
-                                } else {
-                                    html.push(_createImage(blockOption.baseUrl + block.data.file.url));
+                                if ( angular.isDefined(block.data.file) ) {
+                                    //$log.log('image', block.data);
+                                    if ( blockOption.baseUrl === null ) {
+                                        html.push(_createImage(block.data.file.url));
+                                    }
+                                    else {
+                                        html.push(_createImage(blockOption.baseUrl + block.data.file.url));
+                                    }
+                                    //$log.log('image', html);
                                 }
-//                            $log.log('image',html);
                                 break;
                             case 'text':
-                                var textT = self.heading(blockOption.tag, block.data.text, blockOption.options);
-                                html.push(textT);
-//                            $log.log('text',tets);
+                                if ( angular.isDefined(block.data.text) ) {
+                                    var textT = self.heading(blockOption.tag, block.data.text, [blockOption.options]);
+                                    html.push(textT);
+                                }
+//                            //$log.log('text',tets);
                                 break;
                             case 'list':
-//                            $log.log(blockOption);
+//                            //$log.log(blockOption);
                                 var list = self.list(blockOption.tag, blockOption.listItem, block.data.text, blockOption.options);
 
                                 html.push(list);
-//                            $log.log('list');
+//                            //$log.log('list');
                                 break;
                             default:
                                 return 'nichts';
                                 break;
                         }
                     });
-//                $log.log(html);
+//                //$log.log(html);
                     return html;
                 };
-
 
                 /**
                  *
@@ -258,8 +231,8 @@
                  * @returns {*}
                  */
                 this.getOptions = function (scope) {
-                    if (angular.isDefined(scope.blocks) && angular.isObject(scope, blocks)) {
-                        //$log.log('scope.blocks', scope.blocks);
+                    if ( angular.isDefined(scope.blocks) && angular.isObject(scope, blocks) ) {
+                        ////$log.log('scope.blocks', scope.blocks);
                         return self.setOptions(_.defaults(scope.blocks, blocks));
                     }
                     return self.setOptions(blocks);
@@ -271,7 +244,7 @@
                  * @returns {} Object
                  */
                 this.setOptions = function (blocks) {
-                    //$log.log('setOptions', blocks);
+                    ////$log.log('setOptions', blocks);
                     return self.options = blocks;
                 };
 
@@ -283,12 +256,16 @@
                  */
                 this.createTag = function (tag, attrs) {
                     var el = document.createElement(tag);
-                    if (angular.isArray(attrs)) {
+
+                    if ( angular.isArray(attrs) ) {
                         angular.forEach(attrs, function (attr, key) {
                             angular.forEach(attr, function (value, key) {
                                 angular.element(el).attr(key, value);
                             });
                         });
+                    }
+                    else {
+                        //console.log('attrs must be Array');
                     }
                     return el;
                 };
@@ -302,7 +279,8 @@
                 function _createImage(src) {
                     var el = self.createTag('img');
                     angular.element(el).attr('src', '' + src);
-//                console.log('208 img',el);
+                    angular.element(el).attr('class', 'img-responsive');
+//                //console.log('208 img',el);
                     return el;
                 }
 
@@ -314,11 +292,11 @@
                 this.getBlockOption = function (data) {
                     var temp = null;
                     angular.forEach(self.options, function (blockType, index) {
-                        if (index === data.type) {
-                            //$log.log('done blockType', blockType);
-                            //$log.log('done indexd', index);
-                            //$log.log('done data.type', data.type);
-                            //$log.log('done self.options[index]', self.options[index]);
+                        if ( index === data.type ) {
+                            ////$log.log('done blockType', blockType);
+                            ////$log.log('done indexd', index);
+                            ////$log.log('done data.type', data.type);
+                            ////$log.log('done self.options[index]', self.options[index]);
                             temp = self.options[index];
                         }
                     });
@@ -334,7 +312,7 @@
                  */
                 this.getColumns = function (columns, options, container, columnSizes) {
 
-                    if (columns.length <= 0) {
+                    if ( columns.length <= 0 ) {
                         return '';
                     }
 
@@ -342,10 +320,11 @@
 
                     angular.forEach(columns, function (column, index) {
                         var classes = getColumnClasses(itemClasses, columnSizes[index + 1]) + ' ' + columnSizes[0];
+                        ////console.log()
                         var el = self.createTag('div', options);
                         angular.element(el).attr('class', classes);
 
-                        if (angular.isDefined(column.blocks) && column.blocks.length > 0) {
+                        if ( angular.isDefined(column.blocks) && column.blocks.length > 0 ) {
                             var columnHtml = self.toHtml(column.blocks);
                             angular.element(el).append(columnHtml);
                         }
@@ -375,10 +354,10 @@
                     angular.element(container).addClass(data.preset + ' row');
                     var preset = data.preset;
                     var columnClasses = preset.split('-');
-//                $log.log('columnClasses',columnClasses);
+//                //$log.log('columnClasses',columnClasses);
 
-                    if (angular.isUndefined(option['presets'][data.preset])) {
-//                    $log.debug(option);
+                    if ( angular.isUndefined(option['presets'][data.preset]) ) {
+//                    //$log.debug(option);
                         return $log.error(data.preset + ' not defined');
 
                     }
@@ -396,13 +375,13 @@
                  */
                 this.heading = function (tag, text, options) {
                     var head = self.createTag(tag);
-                    if (angular.isDefined(options)) {
+                    //console.log('options', options);
+                    if ( angular.isDefined(options) ) {
                         head = self.createTag(tag, options);
                     }
                     angular.element(head).html(Html.tohtml(text));
                     return head;
                 };
-
 
                 /**
                  * @return <ul><li>duo</li></ul>
@@ -415,72 +394,116 @@
 
                     angular.element(ul).html(lists);
 
-//                $log.log('item', lists);
-//                $log.log('ul', ul);
+//                //$log.log('item', lists);
+//                //$log.log('ul', ul);
                     return ul;
                 }
 
+            }
+        ]);
 
-            }])
+    /**
+     * @ngdoc provider
+     * @name $ngSirTrevorConverter
+     * @description @todo
+     */
+    angular.module('sir.ui')
+        .directive('sirContent',[
+            '$compile','$log', '$timeout', '_','SirTrevorServ',
+            /**
+             *
+             * @param SirTrevorServ
+             * @param $compile
+             * @param $log
+             * @param $timeout
+             * @param _
+             * @returns {{transclude: boolean, restrict: string, scope: {convert: string, blocks: string}, controller: Function}}
+             */
+                function ($compile, $log, $timeout, _,SirTrevorServ) {
+                return {
+                    transclude : true,
+                    restrict   : 'EC',
+                    scope      : {
+                        convert : "=convert",
+                        blocks  : "=blocks"
+                    },
+                    controller : function ($scope, $element, _, SirTrevorServ) {
 
+                        $scope.$watch('convert', function () {
+                            //console.log($scope);
+
+                            if ( typeof $scope.convert !== 'object' )
+                                return //$log.error('convert must be typeof object');
+
+                            var contentArray = SirTrevorServ.create($scope, $element);
+                            angular.forEach(contentArray, function (html) {
+                                $element.append(html);
+                            });
+                        }, true);
+                    }
+                };
+            }]);
+    angular.module('sir.ui')
         .factory('_', function () {
             return window._; // assumes underscore has already been loaded on the page
-        })
+        });
+    angular.module('sir.ui')
         .service('columns', function () {
 
-        })
+        });
+    angular.module('sir.ui')
         .service('Html', function (_) {
             var url_regex = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
 
             _.mixin({
-                isURI: function (string) {
+                isURI : function (string) {
                     return (url_regex.test(string));
                 },
 
-                titleize: function (str) {
-                    if (str === null) return '';
+                titleize : function (str) {
+                    if ( str === null ) return '';
                     str = String(str).toLowerCase();
                     return str.replace(/(?:^|\s|-)\S/g, function (c) {
                         return c.toUpperCase();
                     });
                 },
 
-                classify: function (str) {
+                classify : function (str) {
                     return _.titleize(String(str).replace(/[\W_]/g, ' ')).replace(/\s/g, '');
                 },
 
-                classifyList: function (a) {
+                classifyList : function (a) {
                     return _.map(a, function (i) {
                         return _.classify(i);
                     });
                 },
 
-                capitalize: function (string) {
+                capitalize : function (string) {
                     return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
                 },
 
-                underscored: function (str) {
+                underscored : function (str) {
                     return _.trim(str).replace(/([a-z\d])([A-Z]+)/g, '$1_$2')
                         .replace(/[-\s]+/g, '_').toLowerCase();
                 },
 
-                trim: function (string) {
+                trim : function (string) {
                     return string.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
                 },
 
-                reverse: function (str) {
+                reverse : function (str) {
                     return str.split("").reverse().join("");
                 },
 
-                flattern: function (obj) {
-                    var x = {};
+                flattern : function (obj) {
+                    var x = { };
                     _.each(obj, function (a, b) {
                         x[(_.isArray(obj)) ? a : b] = true;
                     });
                     return x;
                 },
 
-                to_slug: function (str) {
+                to_slug : function (str) {
                     return str
                         .toLowerCase()
                         .replace(/[^\w ]+/g, '')
@@ -489,7 +512,6 @@
 
             });
 
-
             this.tohtml = function (markdown, type) {
                 // MD -> HTML
                 type = _.classify(type);
@@ -497,11 +519,11 @@
                 var html = markdown,
                     shouldWrap = type === "text";
 
-                if (_.isUndefined(shouldWrap)) {
+                if ( _.isUndefined(shouldWrap) ) {
                     shouldWrap = false;
                 }
 
-                if (shouldWrap) {
+                if ( shouldWrap ) {
                     html = "<div>" + html;
                 }
 
@@ -520,7 +542,7 @@
 
                 html = html.replace(/^\> (.+)$/mg, "$1");
 
-                if (shouldWrap) {
+                if ( shouldWrap ) {
                     html = html.replace(/\r?\n\r?\n/gm, "</div><div><br></div><div>");
                     html = html.replace(/\r?\n/gm, "</div><div>");
                 }
@@ -539,7 +561,7 @@
                     .replace(/\\\)/g, ")")
                     .replace(/\\\-/g, "-");
 
-                if (shouldWrap) {
+                if ( shouldWrap ) {
                     html += "</div>";
                 }
 
