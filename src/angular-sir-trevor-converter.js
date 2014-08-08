@@ -390,7 +390,13 @@
 
                     var ul = self.createTag(tag, [options]);
                     var lists = list.replace(/^ - (.+)$/mg, "<" + listTag + ">$1</" + listTag + ">")
-                        .replace(/\n/mg, "");
+                        .replace(/\n/mg, "")
+                        .replace(/\\\[/g, "[")
+                        .replace(/\\\]/g, "]")
+                        .replace(/\\\_/g, "_")
+                        .replace(/\\\(/g, "(")
+                        .replace(/\\\)/g, ")")
+                        .replace(/\\\-/g, "-");
 
                     angular.element(ul).html(lists);
 
@@ -553,13 +559,15 @@
                     .replace(/__/, "");  // Cleanup any markdown characters left
 
                 // Replace escaped
-                html = html.replace(/\\\*/g, "*")
+                html = html
+                    .replace(/\\\*/g, "*")
                     .replace(/\\\[/g, "[")
                     .replace(/\\\]/g, "]")
                     .replace(/\\\_/g, "_")
                     .replace(/\\\(/g, "(")
                     .replace(/\\\)/g, ")")
                     .replace(/\\\-/g, "-");
+
 
                 if ( shouldWrap ) {
                     html += "</div>";
