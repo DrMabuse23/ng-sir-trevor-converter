@@ -32,154 +32,132 @@
 (function (window, angular, undefined) {
     'use strict';
 
-
     angular.module('sir.ui', [])
         .value('defaultOptions', {
-            'text': {
-                tag: 'p'
+            'text'    : {
+                tag : 'p'
             },
-            'heading': {
-                tag: 'h2'
+            'heading' : {
+                tag     : 'h2',
+                options : {
+                    'class' : ['page-header']
+                }
             },
-            'columns': {
-                tag: 'div',
-                presets: {
-                    'columns-6-6': {
-                        tag: 'div',
-                        options: {
-                            'class': 'column-6-6'
-                        },
-                        columnOptions: {
-                            'class': ['medium', 'small']
-                        }
-                    },
-                    'columns-4-4-4': {
-                        tag: 'div',
-                        options: {
-                            'class': 'columns-4-4-4'
-                        },
-                        columnOptions: {
-                            'class': ['medium', 'small']
-                        }
-
-                    },
-                    'columns-3-3-3-3': {
-                        tag: 'div',
-                        options: {
-                            'class': 'columns-3-3-3-3'
-                        },
-                        columnOptions: {
-                            'class': ['medium', 'small']
-                        }
-                    },
-                    'columns-3-6-3': {
-                        tag: 'div',
-                        options: {
-                            'class': 'columns-3-6-3'
-                        },
-                        columnOptions: {
-                            'class': ['medium', 'small']
-                        }
-                    },
-                    'columns-9-3': {
-                        tag: 'div',
-                        options: {
-                            'class': 'columns-9-3'
-                        },
-                        columnOptions: {
-                            'class': ['medium', 'small']
-                        }
-                    },
-                    'columns-3-9': {
-                        tag: 'div',
-                        options: {
-                            'class': 'columns-3-9'
-                        },
-                        columnOptions: {
-                            'class': ['medium', 'small']
-                        }
-                    },
-                    'columns-8-4': {
-                        tag: 'div',
-                        options: {
-                            'class': 'columns-8-4'
-                        },
-                        columnOptions: {
-                            'class': ['medium', 'small']
-                        }
-                    },
-                    'columns-4-8': {
-                        tag: 'div',
-                        options: {
-                            'class': 'columns-4-8'
-                        },
-                        columnOptions: {
-                            'class': ['medium', 'small']
-                        }
+            'columns' : {
+                tag     : 'div',
+                typeColumn:'size',
+                columnTemplate:{
+                    tag:'div',
+                    options:{
+                        'class':'card'
                     }
-                }
-            },
-            'image': {
-                baseUrl: null,
-                options: {
-                    'class': 'image-responsive'
-                }
-            },
-            'list': {
-                tag: 'ul',
-                options: {
-                    'class': 'inline-list'
                 },
-                listItem: 'li'
-            }
-        })
-    /**
-     * @ngdoc provider
-     * @name $ngSirTrevorConverter
-     * @description @todo
-     */
-        .directive('sirContent', ['SirTrevorServ', '$compile', '$log', '$timeout', '_',
-            /**
-             *
-             * @param SirTrevorServ
-             * @param $compile
-             * @param $log
-             * @param $timeout
-             * @param _
-             * @returns {{transclude: boolean, restrict: string, scope: {convert: string, blocks: string}, controller: Function}}
-             */
-                function (SirTrevorServ, $compile, $log, $timeout, _) {
-                return {
-                    transclude: true,
-                    restrict: 'E',
-                    scope: {
-                        convert: "=convert",
-                        blocks: "=blocks"
+                presets : {
+                    'columns-6-6'     : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'column-6-6'
+                        },
+                        columnOptions : {
+                            'class' : ['medium', 'small']
+                        }
                     },
-                    controller: function ($scope, $element, _) {
+                    'columns-4-4-4'   : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'columns-4-4-4'
+                        },
+                        columnOptions : {
+                            'class' : ['medium', 'small']
+                        }
 
-                        $scope.$watch('convert', function () {
-                            console.log($scope);
-
-                            if (typeof $scope.convert !== 'object')
-                                return $log.error('convert must be typeof object');
-
-                            var contentArray = SirTrevorServ.create($scope, $element);
-                            angular.forEach(contentArray, function (html) {
-                                $element.append(html);
-                            });
-                        }, true);
+                    },
+                    'columns-3-3-3-3' : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'columns-3-3-3-3'
+                        },
+                        columnOptions : {
+                            'class' : ['medium', 'small']
+                        }
+                    },
+                    'columns-3-6-3'   : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'columns-3-6-3'
+                        },
+                        columnOptions : {
+                            'class' : ['medium', 'small']
+                        }
+                    },
+                    'columns-9-3'     : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'columns-9-3'
+                        },
+                        columnOptions : {
+                            'class' : ['medium', 'small']
+                        }
+                    },
+                    'columns-3-9'     : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'columns-3-9'
+                        },
+                        columnOptions : {
+                            'class' : ['medium', 'small']
+                        }
+                    },
+                    'columns-8-4'     : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'columns-8-4'
+                        },
+                        columnOptions : {
+                            'class' : ['medium', 'small']
+                        }
+                    },
+                    'columns-4-8'     : {
+                        tag           : 'div',
+                        options       : {
+                            'class' : 'columns-4-8'
+                        },
+                        columnOptions : {
+                            'class' : ['medium', 'small']
+                        }
                     }
-                };
-            }])
+                }
+            },
+            'code': {
+                tag: 'pre',
+                options: {
+                    'class': ''
+                }
+            },
+            'image'   : {
+                baseUrl : null,
+                options : {
+                    'class' : 'img-responsive'
+                }
+            },
+            'list'    : {
+                tag      : 'ul',
+                options  : {
+                    'class' : 'inline-list'
+                },
+                listItem : 'li'
+            }
+        });
     /**
      * @name SirTrevorServ
      * @ng service
      */
-        .service('SirTrevorServ', ['$log', '$filter', 'defaultOptions', '_', 'Html',
+    angular.module('sir.ui')
+        .service('SirTrevorServ', [
+            '$log', '$filter', 'defaultOptions', '_', 'Html',
             /**
              *
-             * @param $log
+             * @param //$log
              * @param $filter
              * @param defaultOptions
              * @param _
@@ -196,7 +174,7 @@
                  * @param scope
                  */
                 this.create = function (scope) {
-                    if (angular.isUndefined(scope.convert.data))
+                    if ( angular.isUndefined(scope.convert.data) )
                         return false;
 
                     self.getOptions(scope);
@@ -212,45 +190,56 @@
                     var html = [];
                     angular.forEach(blocks, function (block) {
                         var blockOption = self.getBlockOption(block);
-                        switch (block.type) {
+
+                        switch ( block.type ) {
                             case 'columns':
                                 html.push(self.columns(blockOption, block.data));
-//                            $log.log('columns',html);
+//                            //$log.log('columns',html);
                                 break;
+                            case 'code':
                             case 'heading':
-                                var head = self.heading(blockOption.tag, block.data.text, blockOption.options);
-                                html.push(head);
-//                            $log.log('heading',html);
+                                //$log.log('block', block);
+                                //$log.log('blockOption', blockOption, blockOption.options);
+                                if ( angular.isDefined(block.data.text) ) {
+                                    var head = self.heading(blockOption.tag, block.data.text, [blockOption.options],block.type);
+                                    html.push(head);
+                                }
+//                            //$log.log('heading',html);
                                 break;
                             case 'image':
-                                if (blockOption.baseUrl === null) {
-                                    html.push(_createImage(block.data.file.url));
-                                } else {
-                                    html.push(_createImage(blockOption.baseUrl + block.data.file.url));
+                                if ( angular.isDefined(block.data.file) ) {
+                                    //$log.log('image', block.data);
+                                    if ( blockOption.baseUrl === null ) {
+                                        html.push(_createImage(block.data.file.url));
+                                    }
+                                    else {
+                                        html.push(_createImage(blockOption.baseUrl + block.data.file.url));
+                                    }
+                                    //$log.log('image', html);
                                 }
-//                            $log.log('image',html);
                                 break;
                             case 'text':
-                                var textT = self.heading(blockOption.tag, block.data.text, blockOption.options);
-                                html.push(textT);
-//                            $log.log('text',tets);
+                                if ( angular.isDefined(block.data.text) ) {
+                                    var textT = self.heading(blockOption.tag, block.data.text, [blockOption.options]);
+                                    html.push(textT);
+                                }
+//                            //$log.log('text',tets);
                                 break;
                             case 'list':
-//                            $log.log(blockOption);
+//                            //$log.log(blockOption);
                                 var list = self.list(blockOption.tag, blockOption.listItem, block.data.text, blockOption.options);
 
                                 html.push(list);
-//                            $log.log('list');
+//                            //$log.log('list');
                                 break;
                             default:
                                 return 'nichts';
                                 break;
                         }
                     });
-//                $log.log(html);
+//                //$log.log(html);
                     return html;
                 };
-
 
                 /**
                  *
@@ -258,8 +247,8 @@
                  * @returns {*}
                  */
                 this.getOptions = function (scope) {
-                    if (angular.isDefined(scope.blocks) && angular.isObject(scope, blocks)) {
-                        //$log.log('scope.blocks', scope.blocks);
+                    if ( angular.isDefined(scope.blocks) && angular.isObject(scope, blocks) ) {
+                        ////$log.log('scope.blocks', scope.blocks);
                         return self.setOptions(_.defaults(scope.blocks, blocks));
                     }
                     return self.setOptions(blocks);
@@ -271,7 +260,7 @@
                  * @returns {} Object
                  */
                 this.setOptions = function (blocks) {
-                    //$log.log('setOptions', blocks);
+                    ////$log.log('setOptions', blocks);
                     return self.options = blocks;
                 };
 
@@ -283,12 +272,16 @@
                  */
                 this.createTag = function (tag, attrs) {
                     var el = document.createElement(tag);
-                    if (angular.isArray(attrs)) {
+
+                    if ( angular.isArray(attrs) ) {
                         angular.forEach(attrs, function (attr, key) {
                             angular.forEach(attr, function (value, key) {
                                 angular.element(el).attr(key, value);
                             });
                         });
+                    }
+                    else {
+                        //console.log('attrs must be Array');
                     }
                     return el;
                 };
@@ -300,11 +293,15 @@
                  * @private
                  */
                 function _createImage(src) {
-                    var el = self.createTag('img');
+                    var template    = self.createTag('div',[{'class':'item item-image'}]);
+                    var el          = self.createTag('img');
                     angular.element(el).attr('src', '' + src);
-//                console.log('208 img',el);
-                    return el;
+                    angular.element(el).attr('class', 'img-responsive');
+                    angular.element(template).append(el);
+//                //console.log('208 img',el);
+                    return template;
                 }
+
 
                 /**
                  *
@@ -314,11 +311,11 @@
                 this.getBlockOption = function (data) {
                     var temp = null;
                     angular.forEach(self.options, function (blockType, index) {
-                        if (index === data.type) {
-                            //$log.log('done blockType', blockType);
-                            //$log.log('done indexd', index);
-                            //$log.log('done data.type', data.type);
-                            //$log.log('done self.options[index]', self.options[index]);
+                        if ( index === data.type ) {
+                            ////$log.log('done blockType', blockType);
+                            ////$log.log('done indexd', index);
+                            ////$log.log('done data.type', data.type);
+                            ////$log.log('done self.options[index]', self.options[index]);
                             temp = self.options[index];
                         }
                     });
@@ -334,7 +331,7 @@
                  */
                 this.getColumns = function (columns, options, container, columnSizes) {
 
-                    if (columns.length <= 0) {
+                    if ( columns.length <= 0 ) {
                         return '';
                     }
 
@@ -342,12 +339,20 @@
 
                     angular.forEach(columns, function (column, index) {
                         var classes = getColumnClasses(itemClasses, columnSizes[index + 1]) + ' ' + columnSizes[0];
+                        ////console.log()
                         var el = self.createTag('div', options);
                         angular.element(el).attr('class', classes);
 
-                        if (angular.isDefined(column.blocks) && column.blocks.length > 0) {
+                        if ( angular.isDefined(column.blocks) && column.blocks.length > 0 ) {
                             var columnHtml = self.toHtml(column.blocks);
-                            angular.element(el).append(columnHtml);
+                            console.log('self.options',self.options);
+                            if(self.options.columns.columnTemplate !== null){
+                                var template = self.createTag(self.options.columns.columnTemplate.tag,self.options.columns.columnTemplate.options);
+                                angular.element(template).append(columnHtml);
+                                angular.element(el).append(template);
+                            }else{
+                                angular.element(el).append(columnHtml);
+                            }
                         }
 
                         angular.element(container).append(el);
@@ -357,10 +362,15 @@
 
                 function getColumnClasses(sizes, size) {
                     var classes = '';
-                    angular.forEach(sizes, function (mySize) {
-                        classes += mySize + '-' + size + ' ';
-                    });
-
+                    if(self.options.columns.typeColumn === 'percentage'){
+                        angular.forEach(sizes, function (mySize) {
+                            classes += mySize + '-' + Math.floor((100/12*size)) + ' ';
+                        });
+                    }else{
+                        angular.forEach(sizes, function (mySize) {
+                            classes += mySize + '-' + size + ' ';
+                        });
+                    }
                     return classes;
                 }
 
@@ -372,13 +382,13 @@
                 this.columns = function (option, data) {
 
                     var container = self.createTag(option.tag, false);
-                    angular.element(container).addClass(data.preset + ' row');
+                    angular.element(container).addClass(data.preset + ' row responsive-sm');
                     var preset = data.preset;
                     var columnClasses = preset.split('-');
-//                $log.log('columnClasses',columnClasses);
+//                //$log.log('columnClasses',columnClasses);
 
-                    if (angular.isUndefined(option['presets'][data.preset])) {
-//                    $log.debug(option);
+                    if ( angular.isUndefined(option['presets'][data.preset]) ) {
+//                    //$log.debug(option);
                         return $log.error(data.preset + ' not defined');
 
                     }
@@ -394,93 +404,133 @@
                  * @param options
                  * @returns <h2 options>Lorem Ipsum</h2>
                  */
-                this.heading = function (tag, text, options) {
+                this.heading = function (tag, text, options,type) {
                     var head = self.createTag(tag);
-                    if (angular.isDefined(options)) {
+                    //console.log('options', options);
+                    if ( angular.isDefined(options) ) {
                         head = self.createTag(tag, options);
                     }
-                    angular.element(head).html(Html.tohtml(text));
+                    angular.element(head).html(Html.parse(text,type));
                     return head;
                 };
-
 
                 /**
                  * @return <ul><li>duo</li></ul>
                  */
                 this.list = function (tag, listTag, list, options) {
-
                     var ul = self.createTag(tag, [options]);
-                    var lists = list.replace(/^ - (.+)$/mg, "<" + listTag + ">$1</" + listTag + ">")
-                        .replace(/\n/mg, "");
-
+                    var lists = Html.parse(list.replace(/^ - (.+)$/mg, "<" + listTag + ">$1</" + listTag + ">"),'List');
                     angular.element(ul).html(lists);
-
-//                $log.log('item', lists);
-//                $log.log('ul', ul);
+                    $log.log('item', lists);
+//                    $log.log('ul', ul);
                     return ul;
                 }
 
+            }
+        ]);
 
-            }])
+    /**
+     * @ngdoc provider
+     * @name $ngSirTrevorConverter
+     * @description @todo
+     */
+    angular.module('sir.ui')
+        .directive('sirContent',[
+            '$compile','$log', '$timeout', '_','SirTrevorServ',
+            /**
+             *
+             * @param SirTrevorServ
+             * @param $compile
+             * @param $log
+             * @param $timeout
+             * @param _
+             * @returns {{transclude: boolean, restrict: string, scope: {convert: string, blocks: string}, controller: Function}}
+             */
+                function ($compile, $log, $timeout, _,SirTrevorServ) {
+                return {
+                    transclude : true,
+                    restrict   : 'EC',
+                    scope      : {
+                        convert : "=convert",
+                        blocks  : "=blocks"
+                    },
+                    controller : function ($scope, $element, _, SirTrevorServ) {
 
+                        $scope.$watch('convert', function () {
+                            //console.log($scope);
+
+                            if ( typeof $scope.convert !== 'object' )
+                                return //$log.error('convert must be typeof object');
+
+                            var contentArray = SirTrevorServ.create($scope, $element);
+                            angular.forEach(contentArray, function (html) {
+                                $element.append(html);
+                            });
+                        }, true);
+                    }
+                };
+            }]);
+    angular.module('sir.ui')
         .factory('_', function () {
             return window._; // assumes underscore has already been loaded on the page
-        })
+        });
+    angular.module('sir.ui')
         .service('columns', function () {
 
-        })
+        });
+    angular.module('sir.ui')
         .service('Html', function (_) {
             var url_regex = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
 
             _.mixin({
-                isURI: function (string) {
+                isURI : function (string) {
                     return (url_regex.test(string));
                 },
 
-                titleize: function (str) {
-                    if (str === null) return '';
+                titleize : function (str) {
+                    if ( str === null ) return '';
                     str = String(str).toLowerCase();
                     return str.replace(/(?:^|\s|-)\S/g, function (c) {
                         return c.toUpperCase();
                     });
                 },
 
-                classify: function (str) {
+                classify : function (str) {
                     return _.titleize(String(str).replace(/[\W_]/g, ' ')).replace(/\s/g, '');
                 },
 
-                classifyList: function (a) {
+                classifyList : function (a) {
                     return _.map(a, function (i) {
                         return _.classify(i);
                     });
                 },
 
-                capitalize: function (string) {
+                capitalize : function (string) {
                     return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
                 },
 
-                underscored: function (str) {
+                underscored : function (str) {
                     return _.trim(str).replace(/([a-z\d])([A-Z]+)/g, '$1_$2')
                         .replace(/[-\s]+/g, '_').toLowerCase();
                 },
 
-                trim: function (string) {
+                trim : function (string) {
                     return string.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
                 },
 
-                reverse: function (str) {
+                reverse : function (str) {
                     return str.split("").reverse().join("");
                 },
 
-                flattern: function (obj) {
-                    var x = {};
+                flattern : function (obj) {
+                    var x = { };
                     _.each(obj, function (a, b) {
                         x[(_.isArray(obj)) ? a : b] = true;
                     });
                     return x;
                 },
 
-                to_slug: function (str) {
+                to_slug : function (str) {
                     return str
                         .toLowerCase()
                         .replace(/[^\w ]+/g, '')
@@ -489,19 +539,18 @@
 
             });
 
-
-            this.tohtml = function (markdown, type) {
+            this.parse = function (markdown, type) {
                 // MD -> HTML
                 type = _.classify(type);
 
                 var html = markdown,
                     shouldWrap = type === "text";
 
-                if (_.isUndefined(shouldWrap)) {
+                if ( _.isUndefined(shouldWrap) ) {
                     shouldWrap = false;
                 }
 
-                if (shouldWrap) {
+                if ( shouldWrap ) {
                     html = "<div>" + html;
                 }
 
@@ -520,15 +569,26 @@
 
                 html = html.replace(/^\> (.+)$/mg, "$1");
 
-                if (shouldWrap) {
+                if ( shouldWrap ) {
                     html = html.replace(/\r?\n\r?\n/gm, "</div><div><br></div><div>");
                     html = html.replace(/\r?\n/gm, "</div><div>");
                 }
+                console.log('type',type);
+                if(type === 'List'){
+                    html = html.replace(/\r?\n/g, "");
+                }
 
-                html = html.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
-                    .replace(/\r?\n/g, "<br>")
-                    .replace(/\*\*/, "")
-                    .replace(/__/, "");  // Cleanup any markdown characters left
+                if(type === 'Code'){
+                    html = html.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");  // Cleanup any markdown characters left
+                }else{
+                    html = html.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
+                        .replace(/\r?\n/g, "<br />")
+                        .replace(/\*\*/, "")
+                        .replace(/__/, "");  // Cleanup any markdown characters left
+                }
+
+
+
 
                 // Replace escaped
                 html = html.replace(/\\\*/g, "*")
@@ -539,7 +599,7 @@
                     .replace(/\\\)/g, ")")
                     .replace(/\\\-/g, "-");
 
-                if (shouldWrap) {
+                if ( shouldWrap ) {
                     html += "</div>";
                 }
 
