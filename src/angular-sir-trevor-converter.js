@@ -45,6 +45,13 @@
             },
             'columns' : {
                 tag     : 'div',
+                typeColumn:'size',
+                columnTemplate:{
+                    tag:'div',
+                    options:{
+                        'class':'card'
+                    }
+                },
                 presets : {
                     'columns-6-6'     : {
                         tag           : 'div',
@@ -121,6 +128,12 @@
                     }
                 }
             },
+            'code': {
+                tag: 'pre',
+                options: {
+                    'class': ''
+                }
+            },
             'image'   : {
                 baseUrl : null,
                 options : {
@@ -183,11 +196,14 @@
                                 html.push(self.columns(blockOption, block.data));
 //                            //$log.log('columns',html);
                                 break;
+                            case 'code':
                             case 'heading':
                                 //$log.log('block', block);
                                 //$log.log('blockOption', blockOption, blockOption.options);
-                                var head = self.heading(blockOption.tag, block.data.text, [blockOption.options]);
-                                html.push(head);
+                                if ( angular.isDefined(block.data.text) ) {
+                                    var head = self.heading(blockOption.tag, block.data.text, [blockOption.options],block.type);
+                                    html.push(head);
+                                }
 //                            //$log.log('heading',html);
                                 break;
                             case 'image':
@@ -277,12 +293,15 @@
                  * @private
                  */
                 function _createImage(src) {
-                    var el = self.createTag('img');
+                    var template    = self.createTag('div',[{'class':'item item-image'}]);
+                    var el          = self.createTag('img');
                     angular.element(el).attr('src', '' + src);
                     angular.element(el).attr('class', 'img-responsive');
+                    angular.element(template).append(el);
 //                //console.log('208 img',el);
-                    return el;
+                    return template;
                 }
+
 
                 /**
                  *
@@ -326,7 +345,14 @@
 
                         if ( angular.isDefined(column.blocks) && column.blocks.length > 0 ) {
                             var columnHtml = self.toHtml(column.blocks);
-                            angular.element(el).append(columnHtml);
+                            console.log('self.options',self.options);
+                            if(self.options.columns.columnTemplate !== null){
+                                var template = self.createTag(self.options.columns.columnTemplate.tag,self.options.columns.columnTemplate.options);
+                                angular.element(template).append(columnHtml);
+                                angular.element(el).append(template);
+                            }else{
+                                angular.element(el).append(columnHtml);
+                            }
                         }
 
                         angular.element(container).append(el);
@@ -336,10 +362,15 @@
 
                 function getColumnClasses(sizes, size) {
                     var classes = '';
-                    angular.forEach(sizes, function (mySize) {
-                        classes += mySize + '-' + size + ' ';
-                    });
-
+                    if(self.options.columns.typeColumn === 'percentage'){
+                        angular.forEach(sizes, function (mySize) {
+                            classes += mySize + '-' + Math.floor((100/12*size)) + ' ';
+                        });
+                    }else{
+                        angular.forEach(sizes, function (mySize) {
+                            classes += mySize + '-' + size + ' ';
+                        });
+                    }
                     return classes;
                 }
 
@@ -351,7 +382,7 @@
                 this.columns = function (option, data) {
 
                     var container = self.createTag(option.tag, false);
-                    angular.element(container).addClass(data.preset + ' row');
+                    angular.element(container).addClass(data.preset + ' row responsive-sm');
                     var preset = data.preset;
                     var columnClasses = preset.split('-');
 //                //$log.log('columnClasses',columnClasses);
@@ -373,13 +404,13 @@
                  * @param options
                  * @returns <h2 options>Lorem Ipsum</h2>
                  */
-                this.heading = function (tag, text, options) {
+                this.heading = function (tag, text, options,type) {
                     var head = self.createTag(tag);
                     //console.log('options', options);
                     if ( angular.isDefined(options) ) {
                         head = self.createTag(tag, options);
                     }
-                    angular.element(head).html(Html.tohtml(text));
+                    angular.element(head).html(Html.parse(text,type));
                     return head;
                 };
 
@@ -387,21 +418,11 @@
                  * @return <ul><li>duo</li></ul>
                  */
                 this.list = function (tag, listTag, list, options) {
-
                     var ul = self.createTag(tag, [options]);
-                    var lists = list.replace(/^ - (.+)$/mg, "<" + listTag + ">$1</" + listTag + ">")
-                        .replace(/\n/mg, "")
-                        .replace(/\\\[/g, "[")
-                        .replace(/\\\]/g, "]")
-                        .replace(/\\\_/g, "_")
-                        .replace(/\\\(/g, "(")
-                        .replace(/\\\)/g, ")")
-                        .replace(/\\\-/g, "-");
-
+                    var lists = Html.parse(list.replace(/^ - (.+)$/mg, "<" + listTag + ">$1</" + listTag + ">"),'List');
                     angular.element(ul).html(lists);
-
-//                //$log.log('item', lists);
-//                //$log.log('ul', ul);
+                    $log.log('item', lists);
+//                    $log.log('ul', ul);
                     return ul;
                 }
 
@@ -518,7 +539,7 @@
 
             });
 
-            this.tohtml = function (markdown, type) {
+            this.parse = function (markdown, type) {
                 // MD -> HTML
                 type = _.classify(type);
 
@@ -552,22 +573,31 @@
                     html = html.replace(/\r?\n\r?\n/gm, "</div><div><br></div><div>");
                     html = html.replace(/\r?\n/gm, "</div><div>");
                 }
+                console.log('type',type);
+                if(type === 'List'){
+                    html = html.replace(/\r?\n/g, "");
+                }
 
-                html = html.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
-                    .replace(/\r?\n/g, "<br>")
-                    .replace(/\*\*/, "")
-                    .replace(/__/, "");  // Cleanup any markdown characters left
+                if(type === 'Code'){
+                    html = html.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");  // Cleanup any markdown characters left
+                }else{
+                    html = html.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;")
+                        .replace(/\r?\n/g, "<br />")
+                        .replace(/\*\*/, "")
+                        .replace(/__/, "");  // Cleanup any markdown characters left
+                }
+
+
+
 
                 // Replace escaped
-                html = html
-                    .replace(/\\\*/g, "*")
+                html = html.replace(/\\\*/g, "*")
                     .replace(/\\\[/g, "[")
                     .replace(/\\\]/g, "]")
                     .replace(/\\\_/g, "_")
                     .replace(/\\\(/g, "(")
                     .replace(/\\\)/g, ")")
                     .replace(/\\\-/g, "-");
-
 
                 if ( shouldWrap ) {
                     html += "</div>";
